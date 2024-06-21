@@ -9,9 +9,9 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         body { font-family: 'Roboto', sans-serif; margin: 0; }
-        h1.heading {font-size: 1.375rem; font-weight: 400;}
-        h2.h2-heading {font-size: 1rem; font-weight: 500;}
-        .input-label  {font-size: 1rem; font-weight: 600;}
+        h1.heading { font-size: 1.375rem; font-weight: 400; }
+        h2.h2-heading { font-size: 1rem; font-weight: 500; }
+        .input-label { font-size: 1rem; font-weight: 600; }
         .color-swatch { width: 220px; display: flex; align-items: center; justify-content: center; border-radius: 0; margin: 0; padding: 1rem; box-sizing: border-box; }
         .color-info { font-size: 1rem; font-weight: bold; text-align: center; }
         .main-container { display: flex; height: 100vh; overflow: hidden; }
@@ -192,7 +192,7 @@
                 const info = document.createElement('div');
                 info.className = 'color-info';
                 info.style.color = tinycolor.mostReadable(color, ['#000', '#fff']).toHexString();
-                info.innerHTML = `<span class="codename">${label}</span><br>HEX: ${color.toUpperCase()}`;
+                info.innerHTML = `<span class="codename">${label}</span><br><span class="hex-value">HEX: ${color.toUpperCase()}</span>`;
     
                 const wcagInfo = document.createElement('div');
                 wcagInfo.className = 'wcag-info wcag-values';
@@ -240,7 +240,7 @@ function exportAsText() {
     let text = 'Color System:\n\n';
     document.querySelectorAll('.color-swatch').forEach(swatch => {
         const label = swatch.querySelector('.codename').textContent;
-        const hex = swatch.querySelector('.color-info').textContent.split('HEX: ')[1].split(' ')[0]; // Extract only the HEX code
+        const hex = swatch.querySelector('.hex-value').textContent.split('HEX: ')[1]; // Extract only the HEX code
         const wcag = swatch.querySelector('.wcag-info').textContent;
         text += `${label}: ${hex}\nAccessibility (WCAG 2.2): ${wcag}\n\n`;
     });
@@ -252,7 +252,7 @@ function exportAsTable() {
     let csv = 'Label,HEX,Accessibility (WCAG 2.2)\n';
     document.querySelectorAll('.color-swatch').forEach(swatch => {
         const label = swatch.querySelector('.codename').textContent;
-        const hex = swatch.querySelector('.color-info').textContent.split('HEX: ')[1].split(' ')[0]; // Extract only the HEX code
+        const hex = swatch.querySelector('.hex-value').textContent.split('HEX: ')[1]; // Extract only the HEX code
         const wcag = swatch.querySelector('.wcag-info').textContent.replace(/\n/g, ' ');
         csv += `${label},${hex},${wcag}\n`;
     });
@@ -262,12 +262,12 @@ function exportAsTable() {
 function exportAsDesignTokens() {
     const colorName = document.getElementById('colorName').textContent.toLowerCase().replace(/ /g, '-');
     let tokens = {
-        color: {}
+        [colorName]: {}
     };
     document.querySelectorAll('.color-swatch').forEach(swatch => {
         const label = swatch.querySelector('.codename').textContent;
-        const hex = swatch.querySelector('.color-info').textContent.split('HEX: ')[1].split(' ')[0]; // Extract only the HEX code
-        tokens.color[`color-${label}`] = {
+        const hex = swatch.querySelector('.hex-value').textContent.split('HEX: ')[1]; // Extract only the HEX code
+        tokens[colorName][label] = {
             value: hex,
             type: 'color'
         };
