@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wcagInfo.className = "wcag-info wcag-values";
         const wcagWhite = tinycolor.readability(color, "#fff");
         const wcagBlack = tinycolor.readability(color, "#000");
-        wcagInfo.innerHTML = `On White: ${wcagWhite.toFixed(2)} (${getWcagRating(wcagWhite)}), On Black: ${wcagBlack.toFixed(2)} (${getWcagRating(wcagBlack)})`;
+        wcagInfo.innerHTML = `On White: ${wcagWhite.toFixed(2)} (${getWcagRating(wcagWhite)})<br> On Black: ${wcagBlack.toFixed(2)} (${getWcagRating(wcagBlack)})`;
         info.appendChild(wcagInfo);
         swatch.appendChild(info);
         return swatch;
