@@ -296,7 +296,7 @@ h2.h2-heading {
 .generation-info {
   margin-bottom: 1.5rem;
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 500;
   white-space: pre-wrap;
   color: #4a5568;
   display: flex;
@@ -429,5 +429,11 @@ input[type="range"]::-webkit-slider-runnable-track {
   }
   .social-icons {
     margin-top: 1.5rem;
+  }
+  .generation-info {
+    margin-bottom: 1.5rem;
+    white-space: text-wrap;
+    font-size: 0.875rem;
+    font-weight: 500;
   }
 }
