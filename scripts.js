@@ -238,13 +238,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function exportAsText() {
         const filename = generateExportFilename();
-        let content = "Color System:\n\n";
+        const baseColor = currentGeneration ? currentGeneration.baseColor : hexColorInput.value;
+        const colorName = getColorName(baseColor);
+        let content = `Color System: ${baseColor}, ${colorName}\n\n`;
+        
         document.querySelectorAll(".color-swatch").forEach((swatch) => {
             const label = swatch.querySelector(".codename").textContent;
             const hex = swatch.querySelector(".hex-value").textContent.split("HEX: ")[1];
-            const wcagInfo = swatch.querySelector(".wcag-info").textContent.replace(/On White: (\d+\.\d+ \([A-Za-z ]+\))On Black: (\d+\.\d+ \([A-Za-z ]+\))/g, "On White: $1, On Black: $2");
+            const wcagInfo = swatch.querySelector(".wcag-info").textContent
+                .replace(/On White: (\d+\.\d+ \([A-Za-z ]+\)) On Black: (\d+\.\d+ \([A-Za-z ]+\))/g, "On White: $1, On Black: $2");
             content += `${label}: ${hex}\nAccessibility (WCAG 2.2): ${wcagInfo}\n\n`;
         });
+        
         exportToFile(content, `${filename}.txt`, "text/plain");
     }
 
