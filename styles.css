@@ -228,7 +228,7 @@ h2.h2-heading {
   color: #c53030;
   cursor: pointer;
   border-radius: 0.25rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 1;
   transition: background-color 0.2s ease-in-out;
 }
