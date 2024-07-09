@@ -57,8 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
             historyItem.className = "history-item";
             historyItem.textContent = `${entry.baseColor} - ${getColorName(entry.baseColor)}, ${entry.tints.length + entry.shades.length}, ${formattedDate}`;
             const removeBtn = document.createElement("button");
-            removeBtn.textContent = "X";
             removeBtn.className = "remove-btn";
+            removeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>'; // Add trash can icon
             removeBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 removeHistoryEntry(entry.id);
@@ -102,48 +102,51 @@ document.addEventListener("DOMContentLoaded", () => {
         shadesColumn.innerHTML = "";
         const tints = [];
         const shades = [];
-
+    
         for (let i = halfCount; i > 0; i--) {
             const ratio = i / (halfCount + 1);
             const tint = tinycolor.mix(baseColor, "#ffffff", 100 * ratio).toHexString();
             tints.push({ color: tint, label: "" + 100 * (halfCount - i + 1) });
         }
-
+    
         const mainColor = { color: baseColor.toHexString(), label: "" + 100 * (halfCount + 1) };
-
+    
         for (let i = 1; i <= halfCount; i++) {
             const ratio = i / (halfCount + 1);
             const shade = tinycolor.mix(baseColor, "#000000", 100 * ratio).toHexString();
             shades.push({ color: shade, label: "" + 100 * (halfCount + 1 + i) });
         }
-
+    
         tints.forEach(({ color, label }) => {
             tintsColumn.appendChild(createColorSwatch(color, label));
         });
-
+    
         const mainColorSwatch = createColorSwatch(mainColor.color, mainColor.label);
         mainColorSwatch.classList.add("highlight");
         mainColorColumn.appendChild(mainColorSwatch);
-
+    
         shades.forEach(({ color, label }) => {
             shadesColumn.appendChild(createColorSwatch(color, label));
         });
-
+    
         const maxHeight = Math.max(tintsColumn.scrollHeight, shadesColumn.scrollHeight);
         mainColorSwatch.style.height = `${maxHeight}px`;
         updateColorName(baseColor.toHexString());
-
+    
         if (isInitialLoad) {
             if (generation) {
                 currentGeneration = generation;
-                displayGenerationInfo(generation, tintShadeCount);
             } else {
-                const existingHistory = JSON.parse(localStorage.getItem("colorHistory")) || [];
-                if (!existingHistory.find(entry => entry.baseColor === baseColor.toHexString() && entry.tints.length === tints.length && entry.shades.length === shades.length)) {
-                    currentGeneration = saveGeneration(baseColor.toHexString(), tints, shades);
-                    displayGenerationInfo(currentGeneration, tintShadeCount);
-                }
+                // Create a temporary generation object without saving it to history
+                currentGeneration = {
+                    id: generateUniqueId(),
+                    baseColor: baseColor.toHexString(),
+                    tints: tints,
+                    shades: shades,
+                    timestamp: new Date().toISOString()
+                };
             }
+            displayGenerationInfo(currentGeneration, tintShadeCount);
             isInitialLoad = false;
         } else {
             const existingHistory = JSON.parse(localStorage.getItem("colorHistory")) || [];
