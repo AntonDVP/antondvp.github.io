@@ -199,15 +199,24 @@ h2.h2-heading {
 }
 
 .history-item {
-  padding: 0.5rem 1.5rem 0.75rem 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   border: 1px solid #e2e8f0;
   border-radius: 0.375rem;
   margin-bottom: 0.75rem;
   font-size: 0.875rem;
   cursor: pointer;
   position: relative;
-  white-space: pre-wrap;
   transition: background-color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding-right: 2rem;
+}
+
+.history-info {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .history-item:hover {
@@ -220,8 +229,9 @@ h2.h2-heading {
 
 .history-item .remove-btn {
   position: absolute;
-  bottom: 0.25rem;
+  top: 50%;
   right: 0.25rem;
+  transform: translateY(-50%);
   padding: 0.25rem 0.35rem;
   border: none;
   background: #e9e4e4;
@@ -289,6 +299,9 @@ h2.h2-heading {
   font-weight: 600;
   white-space: pre-wrap;
   color: #4a5568;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 input[type="text"],
@@ -343,21 +356,35 @@ input[type="range"]::-webkit-slider-runnable-track {
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;  /* Increased gap between icons */
+  gap: 1.5rem;
   margin-top: auto;
-  padding-top: 1.5rem;  /* Increased top padding */
+  padding-top: 1.5rem;
 }
 
 .social-icons a {
   color: #4a5568;
-  font-size: 2rem;  /* Increased font size */
+  font-size: 2rem;
   transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
-  padding: 0.5rem;  /* Added padding around icons */
+  padding: 0.5rem;
 }
 
 .social-icons a:hover {
   color: #4299e1;
-  transform: scale(1.1);  /* Slight enlargement on hover */
+  transform: scale(1.1);
+}
+
+
+.hex-highlight {
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+  display: inline-block;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.history-item .hex-highlight {
+  padding: 6px 4px;
 }
 
 @media (max-width: 768px) {

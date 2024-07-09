@@ -53,12 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
         history.forEach((entry) => {
             const date = new Date(entry.timestamp);
             const formattedDate = `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()}, ${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+            const hexCode = entry.baseColor.toUpperCase();
             const historyItem = document.createElement("div");
             historyItem.className = "history-item";
-            historyItem.textContent = `${entry.baseColor} - ${getColorName(entry.baseColor)}, ${entry.tints.length + entry.shades.length}, ${formattedDate}`;
+            historyItem.innerHTML = `<span class="hex-highlight" style="background-color: ${hexCode}; color: ${tinycolor.mostReadable(hexCode, ["#000", "#fff"]).toHexString()}">${hexCode}</span> ${getColorName(entry.baseColor)}, ${entry.tints.length + entry.shades.length}, ${formattedDate}`;
             const removeBtn = document.createElement("button");
             removeBtn.className = "remove-btn";
-            removeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>'; // Add trash can icon
+            removeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
             removeBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
                 removeHistoryEntry(entry.id);
@@ -205,7 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const date = new Date(generation.timestamp);
         const formattedDate = `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()}, ${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
         const colorName = getColorName(generation.baseColor);
-        generationInfo.textContent = `${generation.baseColor} - ${colorName}, ${tintShadeCount}, ${formattedDate}`;
+        const hexCode = generation.baseColor.toUpperCase();
+        generationInfo.innerHTML = `<span class="hex-highlight" style="background-color: ${hexCode}; color: ${tinycolor.mostReadable(hexCode, ["#000", "#fff"]).toHexString()}">${hexCode}</span> ${colorName}, ${tintShadeCount} swatches, ${formattedDate}`;
     }
 
     function exportToFile(content, filename, mimeType) {
